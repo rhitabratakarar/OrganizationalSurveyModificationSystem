@@ -24,7 +24,7 @@ public class IndexModel(OrganizationalSurveyAPIClient apiClient) : PageModel
         else
         {
             bool checkResult = await _apiClient.CheckRegisteredSurveyResponse(SurveyCheckRequest!);
-            TempData["IsSurveyRegistered"] = checkResult;
+            HttpContext.Session.SetString("IsSurveyRegistered", checkResult.ToString());
             return RedirectToPage("./Edit");
         }
     }

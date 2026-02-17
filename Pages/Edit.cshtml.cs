@@ -7,7 +7,7 @@ public class EditModel : PageModel
 {
     public IActionResult OnGet()
     {
-        if (Convert.ToBoolean(TempData["IsSurveyRegistered"]) == true)
+        if (Convert.ToBoolean(HttpContext.Session.GetString("IsSurveyRegistered")) == true)
         {
             return Page();
         }

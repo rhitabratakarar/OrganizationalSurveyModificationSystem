@@ -6,6 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(option =>
+{
+    option.Cookie.HttpOnly = true;
+    option.IdleTimeout = TimeSpan.FromSeconds(1200);
+    option.Cookie.IsEssential = true;
+});
+
 builder.Services.AddScoped<OrganizationalSurveyAPIClient>();
 
 var app = builder.Build();
@@ -23,6 +32,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapStaticAssets();
 app.MapRazorPages()
