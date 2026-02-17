@@ -1,7 +1,12 @@
+using OrganizationalSurveyModificationSystem.API;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<OrganizationalSurveyAPIClient>();
 
 var app = builder.Build();
 
