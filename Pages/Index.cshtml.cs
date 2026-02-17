@@ -9,9 +9,16 @@ public class IndexModel(OrganizationalSurveyAPIClient apiClient) : PageModel
 {
     readonly OrganizationalSurveyAPIClient _apiClient = apiClient ?? throw new Exception("API Client can't be initialized");
     
-    public void OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
-
+        if (Convert.ToBoolean(HttpContext.Session.GetString("IsSurveyRegistered")) == true)
+        {
+            return RedirectToPage("./Edit");
+        }
+        else
+        {
+            return Page();
+        }
     }
 
     [BindProperty]
