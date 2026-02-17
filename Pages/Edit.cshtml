@@ -6,4 +6,10 @@
 
 <div>
     Success!
+
+    @{
+        string? key = HttpContext.Session.GetString("SurveyId");
+    }
+    <hr />
+    Survey Id: @key
 </div>

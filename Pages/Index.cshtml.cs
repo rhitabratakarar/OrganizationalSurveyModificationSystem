@@ -30,8 +30,14 @@ public class IndexModel(OrganizationalSurveyAPIClient apiClient) : PageModel
 
         else
         {
-            bool checkResult = await _apiClient.CheckRegisteredSurveyResponse(SurveyCheckRequest!);
-            HttpContext.Session.SetString("IsSurveyRegistered", checkResult.ToString());
+            RegisteredSurveyCheckResponse? result = await _apiClient
+                                        .CheckRegisteredSurveyResponse(SurveyCheckRequest!);
+
+            if (result != null)
+            {
+                HttpContext.Session.SetString("IsSurveyRegistered", Convert.ToString(result != null));
+                HttpContext.Session.SetString("SurveyId", result!.Id.ToString());
+            }
             return RedirectToPage("./Edit");
         }
     }

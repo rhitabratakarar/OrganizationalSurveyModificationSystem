@@ -8,13 +8,17 @@ public class OrganizationalSurveyAPIClient(IConfiguration configuration, IHttpCl
     readonly IConfiguration _configuration = configuration;
     readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
 
-    public async Task<bool> CheckRegisteredSurveyResponse(SurveyCheckRequest checkRequest)
+    public async Task<RegisteredSurveyCheckResponse?> CheckRegisteredSurveyResponse(SurveyCheckRequest checkRequest)
     {
         string? registeredSurveyCheckingURL = _configuration["SurveyAPI:urls:checkregisteredsurvey"] ?? throw new InvalidOperationException("'checkregisteredsurvey' key can't be read from appsettings.");
 
         HttpClient client = _httpClientFactory.CreateClient("checkregisteredsurvey");
        
         var response = await client.PostAsJsonAsync(registeredSurveyCheckingURL, checkRequest);
-        return response.IsSuccessStatusCode;
+        
+        if (response.IsSuccessStatusCode)
+            return await response.Content.ReadFromJsonAsync<RegisteredSurveyCheckResponse>();
+        else
+            return default;
     }
 }
