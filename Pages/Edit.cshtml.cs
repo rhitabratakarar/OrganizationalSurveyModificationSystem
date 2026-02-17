@@ -13,7 +13,7 @@ public class EditModel : PageModel
         }
         else
         {
-            return RedirectToPage("./Error");
+            return RedirectToPage("./Index");
         }
     }
 }
